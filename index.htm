@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Coding Project Submission</title>
+
+    <style>
+
+        /* ================================
+           BASIC PAGE STYLING
+        ================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6fb;
+            color: #222;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        /* ================================
+           MAIN CONTAINER
+        ================================= */
+
+        .container {
+            width: 95%;
+            max-width: 1500px;
+            margin: 25px auto;
+        }
+
+        /* ================================
+           STUDENT INFORMATION
+        ================================= */
+
+        .student-info {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .student-info h2 {
+            margin-bottom: 15px;
+            color: #4f46e5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        /* ================================
+           CODE EDITOR AREA
+        ================================= */
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .editor-panel,
+        .preview-panel {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ================================
+           PANEL HEADER
+        ================================= */
+
+        .panel-header {
+            background: #111827;
+            color: white;
+            padding: 14px 18px;
+            font-weight: bold;
+        }
+
+        /* ================================
+           TABS
+        ================================= */
+
+        .tabs {
+            display: flex;
+            background: #1f2937;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #1f2937;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .tab-button:hover {
+            background: #374151;
+        }
+
+        .tab-button.active {
+            background: #4f46e5;
+        }
+
+        /* ================================
+           CODE TEXTAREAS
+        ================================= */
+
+        .code-editor {
+            display: none;
+        }
+
+        .code-editor.active {
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 430px;
+            border: none;
+            outline: none;
+            resize: vertical;
+            padding: 18px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 15px;
+            line-height: 1.5;
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+
+        /* ================================
+           PREVIEW
+        ================================= */
+
+        iframe {
+            width: 100%;
+            height: 505px;
+            border: none;
+            background: white;
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 13px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .run-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .run-btn:hover {
+            background: #15803d;
+        }
+
+        .clear-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #b91c1c;
+        }
+
+        .download-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-btn {
+            background: #7c3aed;
+            color: white;
+            margin-left: auto;
+        }
+
+        .submit-btn:hover {
+            background: #6d28d9;
+        }
+
+        /* ================================
+           PROJECT TITLE
+        ================================= */
+
+        .project-title {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .project-title label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .project-title input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        /* ================================
+           STATUS MESSAGE
+        ================================= */
+
+        #statusMessage {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 7px;
+            display: none;
+            font-weight: bold;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            background: #111827;
+            color: white;
+        }
+
+        /* ================================
+           RESPONSIVE DESIGN
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-btn {
+                margin-left: 0;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =================================
+         WEBSITE HEADER
+    ================================== -->
+
+    <header>
+
+        <h1>💻 Student Coding Project</h1>
+
+        <p>
+            Write HTML, CSS and JavaScript and submit your project
+        </p>
+
+    </header>
+
+
+    <!-- =================================
+         MAIN CONTAINER
+    ================================== -->
+
+    <main class="container">
+
+
+        <!-- =================================
+             STUDENT INFORMATION
+        ================================== -->
+
+        <section class="student-info">
+
+            <h2>👨‍🎓 Student Information</h2>
+
+            <div class="form-row">
+
+                <!-- Student Name -->
+
+                <div class="form-group">
+
+                    <label for="studentName">
+                        Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Class -->
+
+                <div class="form-group">
+
+                    <label for="studentClass">
+                        Class
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentClass"
+                        placeholder="Example: 9"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Roll Number -->
+
+                <div class="form-group">
+
+                    <label for="rollNumber">
+                        Roll Number
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rollNumber"
+                        placeholder="Enter roll number"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             PROJECT TITLE
+        ================================== -->
+
+        <section class="project-title">
+
+            <label for="projectTitle">
+                📁 Project Title
+            </label>
+
+            <input
+                type="text"
+                id="projectTitle"
+                placeholder="Example: My Personal Website"
+                required
+            >
+
+        </section>
+
+
+        <!-- =================================
+             CODE EDITOR AND PREVIEW
+        ================================== -->
+
+        <section class="editor-container">
+
+
+            <!-- =================================
+                 CODE EDITOR
+            ================================== -->
+
+            <div class="editor-panel">
+
+                <div class="panel-header">
+                    🧑‍💻 Code Editor
+                </div>
+
+
+                <!-- Tabs -->
+
+                <div class="tabs">
+
+                    <button
+                        class="tab-button active"
+                        onclick="showEditor('html')"
+                    >
+                        HTML
+                    </button>
+
+                    <button
+                        class="tab-button"
+                        onclick="showEditor('css')"
+                    >
+                        CSS
+                    </button>
+
+                    <button
+                        class="tab-button"
+                        onclick="showEditor('javascript')"
+                    >
+                        JavaScript
+                    </button>
+
+                </div>
+
+
+                <!-- HTML Editor -->
+
+                <div
+                    id="htmlEditor"
+                    class="code-editor active"
+                >
+
+                    <textarea
+                        id="htmlCode"
+                        placeholder="Write your HTML code here..."
+                    >&lt;div class="welcome"&gt;
+    &lt;h1&gt;Hello Students!&lt;/h1&gt;
+    &lt;p&gt;Start creating your project.&lt;/p&gt;
+&lt;/div&gt;</textarea>
+
+                </div>
+
+
+                <!-- CSS Editor -->
+
+                <div
+                    id="cssEditor"
+                    class="code-editor"
+                >
+
+                    <textarea
+                        id="cssCode"
+                        placeholder="Write your CSS code here..."
+                    >body {
+    font-family: Arial;
+    text-align: center;
+}
+
+.welcome {
+    padding: 50px;
+}
+
+h1 {
+    color: purple;
+}</textarea>
+
+                </div>
+
+
+                <!-- JavaScript Editor -->
+
+                <div
+                    id="javascriptEditor"
+                    class="code-editor"
+                >
+
+                    <textarea
+                        id="javascriptCode"
+                        placeholder="Write your JavaScript code here..."
+                    >console.log("Hello from JavaScript!");</textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 LIVE PREVIEW
+            ================================== -->
+
+            <div class="preview-panel">
+
+                <div class="panel-header">
+                    🌐 Live Project Preview
+                </div>
+
+                <iframe
+                    id="preview"
+                    title="Project Preview"
+                ></iframe>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             BUTTONS
+        ================================== -->
+
+        <div class="buttons">
+
+            <button
+                class="run-btn"
+                onclick="runProject()"
+            >
+                ▶ Run Project
+            </button>
+
+
+            <button
+                class="clear-btn"
+                onclick="clearProject()"
+            >
+                🗑 Clear
+            </button>
+
+
+            <button
+                class="download-btn"
+                onclick="downloadProject()"
+            >
+                ⬇ Download Project
+            </button>
+
+
+            <button
+                class="submit-btn"
+                onclick="submitProject()"
+            >
+                📤 Submit Project
+            </button>
+
+        </div>
+
+
+        <!-- =================================
+             STATUS MESSAGE
+        ================================== -->
+
+        <div id="statusMessage"></div>
+
+
+    </main>
+
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Student Coding Project Portal
+        </p>
+
+        <p>
+            Create • Test • Learn • Submit
+        </p>
+
+    </footer>
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        /* =================================
+           GOOGLE APPS SCRIPT URL
+
+           Replace this with your deployed
+           Google Apps Script Web App URL.
+        ================================== */
+
+        const GOOGLE_SCRIPT_URL =
+            "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+
+        /* =================================
+           SHOW HTML/CSS/JS EDITOR
+        ================================== */
+
+        function showEditor(editor) {
+
+            document
+                .querySelectorAll(".code-editor")
+                .forEach(function(element) {
+
+                    element.classList.remove("active");
+
+                });
+
+
+            document
+                .querySelectorAll(".tab-button")
+                .forEach(function(button) {
+
+                    button.classList.remove("active");
+
+                });
+
+
+            if (editor === "html") {
+
+                document
+                    .getElementById("htmlEditor")
+                    .classList.add("active");
+
+                document
+                    .querySelectorAll(".tab-button")[0]
+                    .classList.add("active");
+
+            }
+
+
+            if (editor === "css") {
+
+                document
+                    .getElementById("cssEditor")
+                    .classList.add("active");
+
+                document
+                    .querySelectorAll(".tab-button")[1]
+                    .classList.add("active");
+
+            }
+
+
+            if (editor === "javascript") {
+
+                document
+                    .getElementById("javascriptEditor")
+                    .classList.add("active");
+
+                document
+                    .querySelectorAll(".tab-button")[2]
+                    .classList.add("active");
+
+            }
+
+        }
+
+
+        /* =================================
+           RUN PROJECT
+        ================================== */
+
+        function runProject() {
+
+            const html =
+                document.getElementById("htmlCode").value;
+
+            const css =
+                document.getElementById("cssCode").value;
+
+            const javascript =
+                document.getElementById("javascriptCode").value;
+
+
+            const output = `
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<style>
+
+${css}
+
+</style>
+
+</head>
+
+<body>
+
+${html}
+
+<script>
+
+${javascript}
+
+<\/script>
+
+</body>
+
+</html>
+`;
+
+
+            const preview =
+                document.getElementById("preview");
+
+
+            preview.srcdoc = output;
+
+        }
+
+
+        /* =================================
+           CLEAR PROJECT
+        ================================== */
+
+        function clearProject() {
+
+            if (
+                confirm(
+                    "Are you sure you want to clear your project?"
+                )
+            ) {
+
+                document.getElementById("htmlCode").value = "";
+
+                document.getElementById("cssCode").value = "";
+
+                document.getElementById("javascriptCode").value = "";
+
+                document.getElementById("projectTitle").value = "";
+
+                document.getElementById("preview").srcdoc = "";
+
+            }
+
+        }
+
+
+        /* =================================
+           CREATE PROJECT FILES
+        ================================== */
+
+        function createProjectFiles() {
+
+            const html =
+                document.getElementById("htmlCode").value;
+
+            const css =
+                document.getElementById("cssCode").value;
+
+            const javascript =
+                document.getElementById("javascriptCode").value;
+
+
+            return {
+
+                html: html,
+
+                css: css,
+
+                javascript: javascript
+
+            };
+
+        }
+
+
+        /* =================================
+           DOWNLOAD PROJECT
+        ================================== */
+
+        function downloadProject() {
+
+            const project =
+                createProjectFiles();
+
+
+            const htmlFile = `
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Student Project</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+${project.html}
+
+<script src="script.js"><\/script>
+
+</body>
+
+</html>
+`;
+
+
+            downloadFile(
+                "index.html",
+                htmlFile
+            );
+
+
+            downloadFile(
+                "style.css",
+                project.css
+            );
+
+
+            downloadFile(
+                "script.js",
+                project.javascript
+            );
+
+        }
+
+
+        /* =================================
+           DOWNLOAD HELPER
+        ================================== */
+
+        function downloadFile(
+            filename,
+            content
+        ) {
+
+            const blob =
+                new Blob(
+                    [content],
+                    {
+                        type: "text/plain"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(blob);
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href = url;
+
+            link.download = filename;
+
+            link.click();
+
+
+            URL.revokeObjectURL(url);
+
+        }
+
+
+        /* =================================
+           SUBMIT PROJECT
+        ================================== */
+
+        async function submitProject() {
+
+            const name =
+                document
+                    .getElementById("studentName")
+                    .value
+                    .trim();
+
+
+            const studentClass =
+                document
+                    .getElementById("studentClass")
+                    .value
+                    .trim();
+
+
+            const roll =
+                document
+                    .getElementById("rollNumber")
+                    .value
+                    .trim();
+
+
+            const title =
+                document
+                    .getElementById("projectTitle")
+                    .value
+                    .trim();
+
+
+            /* Validate information */
+
+            if (
+                !name ||
+                !studentClass ||
+                !roll ||
+                !title
+            ) {
+
+                showStatus(
+                    "⚠️ Please fill in Name, Class, Roll Number and Project Title.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const project =
+                createProjectFiles();
+
+
+            /* Check backend */
+
+            if (
+                GOOGLE_SCRIPT_URL ===
+                "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"
+            ) {
+
+                showStatus(
+                    "⚠️ Teacher has not connected the submission server yet.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showStatus(
+                "⏳ Submitting your project...",
+                "loading"
+            );
+
+
+            const data = {
+
+                name: name,
+
+                studentClass: studentClass,
+
+                roll: roll,
+
+                projectTitle: title,
+
+                html: project.html,
+
+                css: project.css,
+
+                javascript: project.javascript
+
+            };
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        GOOGLE_SCRIPT_URL,
+                        {
+
+                            method: "POST",
+
+                            mode: "no-cors",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "text/plain;charset=utf-8"
+
+                            },
+
+                            body:
+                                JSON.stringify(data)
+
+                        }
+                    );
+
+
+                showStatus(
+                    "✅ Project submitted successfully! Your teacher has received your project.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "❌ Submission failed. Please try again.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* =================================
+           STATUS MESSAGE
+        ================================== */
+
+        function showStatus(
+            message,
+            type
+        ) {
+
+            const status =
+                document.getElementById(
+                    "statusMessage"
+                );
+
+
+            status.style.display = "block";
+
+            status.textContent = message;
+
+
+            if (type === "success") {
+
+                status.style.background = "#dcfce7";
+
+                status.style.color = "#166534";
+
+            }
+
+
+            if (type === "error") {
+
+                status.style.background = "#fee2e2";
+
+                status.style.color = "#991b1b";
+
+            }
+
+
+            if (type === "loading") {
+
+                status.style.background = "#fef3c7";
+
+                status.style.color = "#92400e";
+
+            }
+
+        }
+
+
+        /* =================================
+           RUN PROJECT WHEN PAGE LOADS
+        ================================== */
+
+        window.onload = function() {
+
+            runProject();
+
+        };
+
+
+    </script>
+
+</body>
+
+</html>
