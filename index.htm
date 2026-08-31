@@ -1,1180 +1,411 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-```
-<title>Student Coding Project Submission</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Submission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-    /* ================================
-       BASIC PAGE STYLING
-    ================================= */
+  :root {
+    --paper: #EEF1F6;
+    --panel: #FFFFFF;
+    --ink: #1F3A5F;
+    --ink-dark: #16283F;
+    --line: #D3DCE8;
+    --text: #24344A;
+    --muted: #62748A;
+    --ok: #2E7D57;
+    --ok-bg: #E7F4ED;
+    --err: #B4433A;
+    --err-bg: #FBEAE8;
+  }
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+  * { box-sizing: border-box; }
 
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f3f6fb;
-        color: #222;
-    }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+  }
 
-    /* ================================
-       HEADER
-    ================================= */
+  header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
 
-    header {
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
-        color: white;
-        padding: 25px;
-        text-align: center;
-    }
+  header h1 {
+    margin: 0 0 4px;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--ink-dark);
+  }
 
-    header h1 {
-        margin-bottom: 8px;
-    }
+  header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
 
-    header p {
-        opacity: 0.9;
-    }
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
 
-    /* ================================
-       MAIN CONTAINER
-    ================================= */
+  section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
 
-    .container {
-        width: 95%;
-        max-width: 1500px;
-        margin: 25px auto;
-    }
+  section h2 {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink-dark);
+  }
 
-    /* ================================
-       STUDENT INFORMATION
-    ================================= */
+  .student-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
 
-    .student-info {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    }
+  @media (max-width: 700px) {
+    .student-grid { grid-template-columns: 1fr; }
+  }
 
-    .student-info h2 {
-        margin-bottom: 15px;
-        color: #4f46e5;
-    }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
 
-    .form-row {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--paper);
+  }
 
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
+  input[type="text"]:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+    background: var(--panel);
+  }
 
-    .form-group label {
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
+  .field-error {
+    color: var(--err);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+  }
 
-    .form-group input {
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 7px;
-        font-size: 16px;
-    }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
 
-    .form-group input:focus {
-        outline: none;
-        border-color: #4f46e5;
-    }
+  .tab-btn {
+    padding: 9px 18px;
+    border: none;
+    background: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
 
-    /* ================================
-       CODE EDITOR AREA
-    ================================= */
+  .tab-btn.active {
+    color: var(--ink-dark);
+    border-bottom-color: var(--ink);
+    font-weight: 500;
+  }
 
-    .editor-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
+  .code-area {
+    display: none;
+  }
 
-    .editor-panel,
-    .preview-panel {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    }
+  .code-area.active {
+    display: block;
+  }
 
-    /* ================================
-       PANEL HEADER
-    ================================= */
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--text);
+    background: #FAFBFD;
+    resize: vertical;
+    tab-size: 2;
+  }
 
-    .panel-header {
-        background: #111827;
-        color: white;
-        padding: 14px 18px;
-        font-weight: bold;
-    }
+  textarea:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
 
-    /* ================================
-       TABS
-    ================================= */
+  .run-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
 
-    .tabs {
-        display: flex;
-        background: #1f2937;
-    }
+  button {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 22px;
+    cursor: pointer;
+  }
 
-    .tab-button {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        background: #1f2937;
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
-    }
+  .btn-run {
+    background: var(--paper);
+    color: var(--ink-dark);
+    border: 1px solid var(--ink);
+  }
 
-    .tab-button:hover {
-        background: #374151;
-    }
+  .btn-run:hover { background: #E3E9F2; }
 
-    .tab-button.active {
-        background: #4f46e5;
-    }
+  .btn-submit {
+    background: var(--ink);
+    color: #fff;
+    padding: 13px 26px;
+    font-size: 0.95rem;
+  }
 
-    /* ================================
-       CODE TEXTAREAS
-    ================================= */
+  .btn-submit:hover { background: var(--ink-dark); }
 
-    .code-editor {
-        display: none;
-    }
+  .btn-submit:disabled {
+    background: #A7B4C6;
+    cursor: not-allowed;
+  }
 
-    .code-editor.active {
-        display: block;
-    }
+  iframe#preview {
+    width: 100%;
+    height: 340px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+  }
 
-    textarea {
-        width: 100%;
-        height: 430px;
-        border: none;
-        outline: none;
-        resize: vertical;
-        padding: 18px;
-        font-family: Consolas, "Courier New", monospace;
-        font-size: 15px;
-        line-height: 1.5;
-        background: #0f172a;
-        color: #e5e7eb;
-    }
+  .submit-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
 
-    /* ================================
-       PREVIEW
-    ================================= */
+  .status {
+    font-size: 0.9rem;
+    padding: 9px 14px;
+    border-radius: 7px;
+    display: none;
+  }
 
-    iframe {
-        width: 100%;
-        height: 505px;
-        border: none;
-        background: white;
-    }
+  .status.show { display: inline-block; }
 
-    /* ================================
-       BUTTONS
-    ================================= */
-
-    .buttons {
-        margin-top: 20px;
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    button {
-        border: none;
-        padding: 13px 22px;
-        border-radius: 7px;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: bold;
-    }
-
-    .run-btn {
-        background: #16a34a;
-        color: white;
-    }
-
-    .run-btn:hover {
-        background: #15803d;
-    }
-
-    .clear-btn {
-        background: #dc2626;
-        color: white;
-    }
-
-    .clear-btn:hover {
-        background: #b91c1c;
-    }
-
-    .download-btn {
-        background: #2563eb;
-        color: white;
-    }
-
-    .download-btn:hover {
-        background: #1d4ed8;
-    }
-
-    .submit-btn {
-        background: #7c3aed;
-        color: white;
-        margin-left: auto;
-    }
-
-    .submit-btn:hover {
-        background: #6d28d9;
-    }
-
-    /* ================================
-       PROJECT TITLE
-    ================================= */
-
-    .project-title {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .project-title label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    .project-title input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 7px;
-        font-size: 16px;
-    }
-
-    .project-title input:focus {
-        outline: none;
-        border-color: #4f46e5;
-    }
-
-    /* ================================
-       STATUS MESSAGE
-    ================================= */
-
-    #statusMessage {
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 7px;
-        display: none;
-        font-weight: bold;
-    }
-
-    /* ================================
-       FOOTER
-    ================================= */
-
-    footer {
-        text-align: center;
-        padding: 25px;
-        margin-top: 30px;
-        background: #111827;
-        color: white;
-    }
-
-    footer p {
-        margin: 5px 0;
-    }
-
-    /* ================================
-       RESPONSIVE DESIGN
-    ================================= */
-
-    @media (max-width: 900px) {
-        .editor-container {
-            grid-template-columns: 1fr;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-        }
-
-        .submit-btn {
-            margin-left: 0;
-        }
-    }
+  .status.ok { background: var(--ok-bg); color: var(--ok); }
+  .status.err { background: var(--err-bg); color: var(--err); }
+  .status.pending { background: #EEF1F6; color: var(--muted); border: 1px solid var(--line); }
 </style>
-```
-
 </head>
-
 <body>
 
-```
-<!-- =================================
-     WEBSITE HEADER
-================================== -->
-
 <header>
-    <h1>💻 Student Coding Project</h1>
-
-    <p>
-        Write HTML, CSS and JavaScript and submit your project
-    </p>
+  <h1>Project Submission</h1>
+  <p>Write your HTML, CSS and JavaScript, preview it, then submit your finished project.</p>
 </header>
 
-
-<!-- =================================
-     MAIN CONTAINER
-================================== -->
-
-<main class="container">
-
-    <!-- =================================
-         STUDENT INFORMATION
-    ================================== -->
-
-    <section class="student-info">
-
-        <h2>👨‍🎓 Student Information</h2>
-
-        <div class="form-row">
-
-            <!-- Student Name -->
-            <div class="form-group">
-                <label for="studentName">
-                    Student Name
-                </label>
-
-                <input
-                    type="text"
-                    id="studentName"
-                    placeholder="Enter your full name"
-                    required
-                >
-            </div>
-
-
-            <!-- Class -->
-            <div class="form-group">
-                <label for="studentClass">
-                    Class
-                </label>
-
-                <input
-                    type="text"
-                    id="studentClass"
-                    placeholder="Example: 9"
-                    required
-                >
-            </div>
-
-
-            <!-- Roll Number -->
-            <div class="form-group">
-                <label for="rollNumber">
-                    Roll Number
-                </label>
-
-                <input
-                    type="number"
-                    id="rollNumber"
-                    placeholder="Enter roll number"
-                    min="1"
-                    required
-                >
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =================================
-         PROJECT TITLE
-    ================================== -->
-
-    <section class="project-title">
-
-        <label for="projectTitle">
-            📁 Project Title
-        </label>
-
-        <input
-            type="text"
-            id="projectTitle"
-            placeholder="Example: My Personal Website"
-            required
-        >
-
-    </section>
-
-
-    <!-- =================================
-         CODE EDITOR AND PREVIEW
-    ================================== -->
-
-    <section class="editor-container">
-
-        <!-- =================================
-             CODE EDITOR
-        ================================== -->
-
-        <div class="editor-panel">
-
-            <div class="panel-header">
-                🧑‍💻 Code Editor
-            </div>
-
-
-            <!-- Tabs -->
-
-            <div class="tabs">
-
-                <button
-                    type="button"
-                    class="tab-button active"
-                    onclick="showEditor('html')"
-                >
-                    HTML
-                </button>
-
-                <button
-                    type="button"
-                    class="tab-button"
-                    onclick="showEditor('css')"
-                >
-                    CSS
-                </button>
-
-                <button
-                    type="button"
-                    class="tab-button"
-                    onclick="showEditor('javascript')"
-                >
-                    JavaScript
-                </button>
-
-            </div>
-
-
-            <!-- HTML Editor -->
-
-            <div
-                id="htmlEditor"
-                class="code-editor active"
-            >
-
-                <textarea
-                    id="htmlCode"
-                    placeholder="Write your HTML code here..."
-                    spellcheck="false"
-                >&lt;div class="welcome"&gt;
-&lt;h1&gt;Hello Students!&lt;/h1&gt;
-&lt;p&gt;Start creating your project.&lt;/p&gt;
-```
-
-</div></textarea>
-
-```
-            </div>
-
-
-            <!-- CSS Editor -->
-
-            <div
-                id="cssEditor"
-                class="code-editor"
-            >
-
-                <textarea
-                    id="cssCode"
-                    placeholder="Write your CSS code here..."
-                    spellcheck="false"
-                >body {
-font-family: Arial;
-text-align: center;
-```
-
-}
-
-.welcome {
-padding: 50px;
-}
-
-h1 {
-color: purple;
-}</textarea>
-
-```
-            </div>
-
-
-            <!-- JavaScript Editor -->
-
-            <div
-                id="javascriptEditor"
-                class="code-editor"
-            >
-
-                <textarea
-                    id="javascriptCode"
-                    placeholder="Write your JavaScript code here..."
-                    spellcheck="false"
-                >console.log("Hello from JavaScript!");</textarea>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================
-             LIVE PREVIEW
-        ================================== -->
-
-        <div class="preview-panel">
-
-            <div class="panel-header">
-                🌐 Live Project Preview
-            </div>
-
-            <iframe
-                id="preview"
-                title="Project Preview"
-                sandbox="allow-scripts"
-            ></iframe>
-
-        </div>
-
-    </section>
-
-
-    <!-- =================================
-         BUTTONS
-    ================================== -->
-
-    <div class="buttons">
-
-        <button
-            type="button"
-            class="run-btn"
-            onclick="runProject()"
-        >
-            ▶ Run Project
-        </button>
-
-
-        <button
-            type="button"
-            class="clear-btn"
-            onclick="clearProject()"
-        >
-            🗑 Clear
-        </button>
-
-
-        <button
-            type="button"
-            class="download-btn"
-            onclick="downloadProject()"
-        >
-            ⬇ Download Project
-        </button>
-
-
-        <button
-            type="button"
-            class="submit-btn"
-            onclick="submitProject()"
-        >
-            📤 Submit Project
-        </button>
-
+<main>
+
+  <section>
+    <h2>Your details</h2>
+    <div class="student-grid">
+      <div>
+        <label for="studentName">Full name</label>
+        <input type="text" id="studentName" placeholder="e.g. Aashish Karki">
+        <div class="field-error" id="err-name">Enter your name.</div>
+      </div>
+      <div>
+        <label for="studentClass">Class</label>
+        <input type="text" id="studentClass" placeholder="e.g. 9-B">
+        <div class="field-error" id="err-class">Enter your class.</div>
+      </div>
+      <div>
+        <label for="studentRoll">Roll no.</label>
+        <input type="text" id="studentRoll" placeholder="e.g. 14">
+        <div class="field-error" id="err-roll">Enter your roll number.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Your code</h2>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="html">HTML</button>
+      <button class="tab-btn" data-tab="css">CSS</button>
+      <button class="tab-btn" data-tab="js">JavaScript</button>
     </div>
 
+    <div class="code-area active" id="area-html">
+      <textarea id="codeHtml" spellcheck="false" placeholder="&lt;h1&gt;Hello!&lt;/h1&gt;"></textarea>
+    </div>
+    <div class="code-area" id="area-css">
+      <textarea id="codeCss" spellcheck="false" placeholder="h1 { color: teal; }"></textarea>
+    </div>
+    <div class="code-area" id="area-js">
+      <textarea id="codeJs" spellcheck="false" placeholder="console.log('hello');"></textarea>
+    </div>
 
-    <!-- =================================
-         STATUS MESSAGE
-    ================================== -->
+    <div class="run-row">
+      <button class="btn-run" id="runBtn">Run &amp; preview</button>
+    </div>
+  </section>
 
-    <div id="statusMessage"></div>
+  <section>
+    <h2>Live preview</h2>
+    <iframe id="preview" title="Project preview" sandbox="allow-scripts"></iframe>
+  </section>
+
+  <section>
+    <h2>Submit</h2>
+    <div class="submit-bar">
+      <button class="btn-submit" id="submitBtn">Submit project</button>
+      <span class="status" id="statusMsg"></span>
+    </div>
+  </section>
 
 </main>
 
-
-<!-- =================================
-     FOOTER
-================================== -->
-
-<footer>
-
-    <p>
-        © 2026 Student Coding Project Portal
-    </p>
-
-    <p>
-        Create • Test • Learn • Submit
-    </p>
-
-</footer>
-
-
-<!-- =================================
-     JAVASCRIPT
-================================== -->
-
 <script>
+  // ---- Configuration ----
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAABZYNpgGmh_UZTa7iZELhJwLVd7DfzMU-zVhrATBIMHURR8-yHmJKMpLLMuyereSUQ/exec";
 
-    /* =================================
-       GOOGLE APPS SCRIPT URL
+  // ---- Tab switching ----
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      tabButtons.forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.code-area').forEach(function (a) { a.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('area-' + btn.dataset.tab).classList.add('active');
+    });
+  });
 
-       This must be your deployed
-       Google Apps Script Web App URL.
-    ================================== */
+  // ---- Live preview ----
+  function renderPreview() {
+    var html = document.getElementById('codeHtml').value;
+    var css = document.getElementById('codeCss').value;
+    var js = document.getElementById('codeJs').value;
 
-    const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxAABZYNpgGmh_UZTa7iZELhJwLVd7DfzMU-zVhrATBIMHURR8-yHmJKMpLLMuyereSUQ/exec";
+    var doc = '<!DOCTYPE html><html><head><style>' + css + '</style></head><body>' +
+      html + '<script>' + js + '<' + '/script></body></html>';
 
+    document.getElementById('preview').srcdoc = doc;
+  }
 
-    /* =================================
-       SHOW HTML/CSS/JAVASCRIPT EDITOR
-    ================================== */
+  document.getElementById('runBtn').addEventListener('click', renderPreview);
 
-    function showEditor(editor) {
+  // Render once on load so the preview isn't blank
+  renderPreview();
 
-        const editors =
-            document.querySelectorAll(".code-editor");
+  // ---- Validation ----
+  function validateField(inputId, errorId) {
+    var input = document.getElementById(inputId);
+    var error = document.getElementById(errorId);
+    if (input.value.trim() === '') {
+      error.style.display = 'block';
+      input.style.borderColor = '#B4433A';
+      return false;
+    }
+    error.style.display = 'none';
+    input.style.borderColor = '';
+    return true;
+  }
 
-        const buttons =
-            document.querySelectorAll(".tab-button");
+  function validateForm() {
+    var nameOk = validateField('studentName', 'err-name');
+    var classOk = validateField('studentClass', 'err-class');
+    var rollOk = validateField('studentRoll', 'err-roll');
+    return nameOk && classOk && rollOk;
+  }
 
+  // ---- Submission ----
+  var submitBtn = document.getElementById('submitBtn');
+  var statusMsg = document.getElementById('statusMsg');
 
-        editors.forEach(function(element) {
-            element.classList.remove("active");
-        });
+  function setStatus(text, kind) {
+    statusMsg.textContent = text;
+    statusMsg.className = 'status show ' + kind;
+  }
 
-
-        buttons.forEach(function(button) {
-            button.classList.remove("active");
-        });
-
-
-        if (editor === "html") {
-
-            document
-                .getElementById("htmlEditor")
-                .classList.add("active");
-
-            buttons[0].classList.add("active");
-
-        }
-
-
-        if (editor === "css") {
-
-            document
-                .getElementById("cssEditor")
-                .classList.add("active");
-
-            buttons[1].classList.add("active");
-
-        }
-
-
-        if (editor === "javascript") {
-
-            document
-                .getElementById("javascriptEditor")
-                .classList.add("active");
-
-            buttons[2].classList.add("active");
-
-        }
-
+  submitBtn.addEventListener('click', function () {
+    if (!validateForm()) {
+      setStatus('Please fill in your name, class and roll number.', 'err');
+      return;
     }
 
+    // Make sure the preview reflects the latest code before submitting
+    renderPreview();
 
-    /* =================================
-       RUN PROJECT
-    ================================== */
+    var payload = {
+      name: document.getElementById('studentName').value.trim(),
+      className: document.getElementById('studentClass').value.trim(),
+      rollNo: document.getElementById('studentRoll').value.trim(),
+      htmlCode: document.getElementById('codeHtml').value,
+      cssCode: document.getElementById('codeCss').value,
+      jsCode: document.getElementById('codeJs').value,
+      submittedAt: new Date().toISOString()
+    };
 
-    function runProject() {
+    submitBtn.disabled = true;
+    setStatus('Submitting…', 'pending');
 
-        const html =
-            document.getElementById("htmlCode").value;
-
-        const css =
-            document.getElementById("cssCode").value;
-
-        const javascript =
-            document.getElementById("javascriptCode").value;
-
-
-        const output = `
-```
-
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-
-${css}
-
-</style>
-
-</head>
-
-<body>
-
-${html}
-
-<script>
-
-${javascript}
-
-<\/script>
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      // text/plain avoids a CORS preflight, which Apps Script web apps don't handle
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        submitBtn.disabled = false;
+        if (data && data.status === 'success') {
+          setStatus('Project submitted successfully!', 'ok');
+        } else {
+          setStatus('Submission failed: ' + (data && data.message ? data.message : 'unknown error'), 'err');
+        }
+      })
+      .catch(function (err) {
+        submitBtn.disabled = false;
+        setStatus('Could not reach the submission server. Check your connection and try again.', 'err');
+      });
+  });
+</script>
 
 </body>
-
-</html>
-`;
-
-
-            document.getElementById("preview").srcdoc =
-                output;
-
-        }
-
-
-        /* =================================
-           CLEAR PROJECT
-        ================================== */
-
-        function clearProject() {
-
-            const confirmed =
-                confirm(
-                    "Are you sure you want to clear your project?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            document.getElementById("htmlCode").value = "";
-
-            document.getElementById("cssCode").value = "";
-
-            document.getElementById("javascriptCode").value = "";
-
-            document.getElementById("projectTitle").value = "";
-
-            document.getElementById("preview").srcdoc = "";
-
-            showStatus(
-                "🗑 Project cleared.",
-                "success"
-            );
-
-        }
-
-
-        /* =================================
-           CREATE PROJECT DATA
-        ================================== */
-
-        function createProjectFiles() {
-
-            return {
-
-                html:
-                    document.getElementById("htmlCode").value,
-
-                css:
-                    document.getElementById("cssCode").value,
-
-                javascript:
-                    document.getElementById("javascriptCode").value
-
-            };
-
-        }
-
-
-        /* =================================
-           DOWNLOAD PROJECT
-        ================================== */
-
-        function downloadProject() {
-
-            const project =
-                createProjectFiles();
-
-
-            const htmlFile = `
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Student Project</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-${project.html}
-
-<script src="script.js"><\/script>
-
-</body>
-
-</html>
-`;
-
-
-            downloadFile(
-                "index.html",
-                htmlFile,
-                "text/html"
-            );
-
-
-            downloadFile(
-                "style.css",
-                project.css,
-                "text/css"
-            );
-
-
-            downloadFile(
-                "script.js",
-                project.javascript,
-                "text/javascript"
-            );
-
-
-            showStatus(
-                "⬇ Project files downloaded successfully.",
-                "success"
-            );
-
-        }
-
-
-        /* =================================
-           DOWNLOAD HELPER
-        ================================== */
-
-        function downloadFile(
-            filename,
-            content,
-            type
-        ) {
-
-            const blob =
-                new Blob(
-                    [content],
-                    {
-                        type: type
-                    }
-                );
-
-
-            const url =
-                URL.createObjectURL(blob);
-
-
-            const link =
-                document.createElement("a");
-
-
-            link.href = url;
-
-            link.download = filename;
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            document.body.removeChild(link);
-
-
-            setTimeout(function() {
-
-                URL.revokeObjectURL(url);
-
-            }, 100);
-
-        }
-
-
-        /* =================================
-           SUBMIT PROJECT
-        ================================== */
-
-        async function submitProject() {
-
-            const name =
-                document
-                    .getElementById("studentName")
-                    .value
-                    .trim();
-
-
-            const studentClass =
-                document
-                    .getElementById("studentClass")
-                    .value
-                    .trim();
-
-
-            const roll =
-                document
-                    .getElementById("rollNumber")
-                    .value
-                    .trim();
-
-
-            const title =
-                document
-                    .getElementById("projectTitle")
-                    .value
-                    .trim();
-
-
-            /* Validate student information */
-
-            if (
-                !name ||
-                !studentClass ||
-                !roll ||
-                !title
-            ) {
-
-                showStatus(
-                    "⚠️ Please fill in Name, Class, Roll Number and Project Title.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            /* Validate Google Apps Script URL */
-
-            if (
-                !GOOGLE_SCRIPT_URL ||
-                !GOOGLE_SCRIPT_URL.startsWith(
-                    "https://script.google.com/macros/s/"
-                )
-            ) {
-
-                showStatus(
-                    "⚠️ Teacher has not connected the submission server yet.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            const project =
-                createProjectFiles();
-
-
-            const data = {
-
-                name: name,
-
-                studentClass: studentClass,
-
-                roll: roll,
-
-                projectTitle: title,
-
-                html: project.html,
-
-                css: project.css,
-
-                javascript: project.javascript
-
-            };
-
-
-            showStatus(
-                "⏳ Submitting your project...",
-                "loading"
-            );
-
-
-            try {
-
-                /*
-                 * no-cors is used because Google Apps Script
-                 * may not return normal CORS headers.
-                 *
-                 * Because of no-cors, JavaScript cannot inspect
-                 * the response. The request itself is sent.
-                 */
-
-                await fetch(
-                    GOOGLE_SCRIPT_URL,
-                    {
-                        method: "POST",
-
-                        mode: "no-cors",
-
-                        headers: {
-                            "Content-Type":
-                                "text/plain;charset=utf-8"
-                        },
-
-                        body:
-                            JSON.stringify(data)
-                    }
-                );
-
-
-                showStatus(
-                    "✅ Project submitted successfully! Your teacher has received your project.",
-                    "success"
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Submission error:",
-                    error
-                );
-
-
-                showStatus(
-                    "❌ Submission failed. Please check your internet connection and try again.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* =================================
-           STATUS MESSAGE
-        ================================== */
-
-        function showStatus(
-            message,
-            type
-        ) {
-
-            const status =
-                document.getElementById(
-                    "statusMessage"
-                );
-
-
-            status.style.display =
-                "block";
-
-
-            status.textContent =
-                message;
-
-
-            if (type === "success") {
-
-                status.style.background =
-                    "#dcfce7";
-
-                status.style.color =
-                    "#166534";
-
-            }
-
-
-            if (type === "error") {
-
-                status.style.background =
-                    "#fee2e2";
-
-                status.style.color =
-                    "#991b1b";
-
-            }
-
-
-            if (type === "loading") {
-
-                status.style.background =
-                    "#fef3c7";
-
-                status.style.color =
-                    "#92400e";
-
-            }
-
-        }
-
-
-        /* =================================
-           RUN PROJECT WHEN PAGE LOADS
-        ================================== */
-
-        window.addEventListener(
-            "load",
-            function() {
-
-                runProject();
-
-            }
-        );
-
-    </script>
-
-</body>
-
 </html>
