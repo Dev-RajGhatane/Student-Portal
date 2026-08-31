@@ -978,19 +978,19 @@ ${project.html}
 
             /* Check backend */
 
-            if (
-                GOOGLE_SCRIPT_URL ===
-                "https://script.google.com/macros/s/AKfycbxAABZYNpgGmh_UZTa7iZELhJwLVd7DfzMU-zVhrATBIMHURR8-yHmJKMpLLMuyereSUQ/exec";
-            ) {
+           if (
+    !GOOGLE_SCRIPT_URL ||
+    !GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbxAABZYNpgGmh_UZTa7iZELhJwLVd7DfzMU-zVhrATBIMHURR8-yHmJKMpLLMuyereSUQ/exec")
+) {
 
-                showStatus(
-                    "⚠️ Teacher has not connected the submission server yet.",
-                    "error"
-                );
+    showStatus(
+        "⚠️ Teacher has not connected the submission server yet.",
+        "error"
+    );
 
-                return;
+    return;
 
-            }
+}
 
 
             showStatus(
